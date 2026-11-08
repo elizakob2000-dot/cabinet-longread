@@ -44,7 +44,7 @@ svg { flex: none; }
   padding-inline: var(--gutter);
 }
 .section { padding-block: var(--gap-section); }
-.band { background: var(--paper-2); padding-block: var(--gap-band); }
+.band { padding-block: var(--gap-band); }
 
 .skip-link {
   position: fixed;

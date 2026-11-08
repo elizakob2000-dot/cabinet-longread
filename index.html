@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/hero.css">
   <link rel="stylesheet" href="assets/css/sections.css">
   <link rel="stylesheet" href="assets/css/cabinet.css">
   <script>document.documentElement.classList.add('js')</script>
@@ -56,16 +57,21 @@
   <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
 </svg>
 
-<section class="hero on-night" id="top">
-  <video class="bg-video" data-src-desktop="assets/video/hero-desktop.mp4" data-src-mobile="assets/video/hero-mobile.mp4" poster="assets/video/poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
+<section class="hero" id="top">
   <div class="container hero__grid">
-    <h1 class="hero__title">Как личный кабинет может улучшить клиентский опыт?</h1>
+    <h1 class="hero__title"><span class="hw" style="--i:0">Как</span> <span class="hw" style="--i:1">личный</span> <span class="hw" style="--i:2">кабинет</span> <span class="hw" style="--i:3">может</span> <span class="mark"><span class="hw" style="--i:4">улучшить</span> <span class="hw" style="--i:5">клиентский</span> <span class="hw" style="--i:6">опыт</span></span>?</h1>
     <p class="hero__lead">Разрабатываю концепцию единого личного кабинета для клиентов рекламного агентства, чтобы меньше времени уходило на поиск информации и быстрее принимались решения.</p>
+    <p class="hero__badge"><svg aria-hidden="true"><use href="#i-doc"/></svg>Личный кабинет</p>
+    <ul class="hero__things" aria-hidden="true">
+      <li class="thing t1"><img src="assets/img/mail.png" alt="" width="360" height="318"><span>Почта</span></li>
+      <li class="thing t2"><img src="assets/img/chat.png" alt="" width="360" height="269"><span>Мессенджеры</span></li>
+      <li class="thing t3"><img src="assets/img/table.png" alt="" width="360" height="318"><span>Таблицы</span></li>
+    </ul>
   </div>
 </section>
 
 <main>
-  <section class="section idea" id="idea">
+  <section class="section idea tone-stone" id="idea">
     <div class="container idea__grid">
       <h2 class="idea__lead split">Личный кабинет собирает всю информацию о проекте в одном месте.</h2>
       <ul class="idea__points">
@@ -78,13 +84,12 @@
   <section class="band count" id="two-sides">
     <div class="container">
       <h2 aria-label="от 5 человек">от <span class="num" id="cnt" aria-hidden="true">5</span> человек</h2>
-      <span class="count__gloss">в среднем со стороны клиента участвуют в одном рекламном проекте</span>
+      <span class="count__gloss">со стороны клиента участвуют в одном рекламном проекте</span>
       <p class="count__note">Личный кабинет помогает <span class="mark">всем</span> участникам процесса быть в курсе проекта. <span class="mark">Меньше повторных вопросов — быстрее принимаются решения.</span></p>
     </div>
   </section>
 
   <section class="quote on-night" id="quote">
-    <video class="bg-video" data-src-desktop="assets/video/hero-desktop.mp4" data-src-mobile="assets/video/hero-mobile.mp4" poster="assets/video/poster.jpg" autoplay muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture></video>
     <div class="container">
       <figure>
         <blockquote>«Каждый наш контакт с клиентом влияет на то, вернётся он к нам или нет.»</blockquote>
@@ -144,7 +149,7 @@
     </div></div></div>
   </section>
 
-  <section class="band" id="approach">
+  <section class="band tone-stone" id="approach">
     <div class="container">
       <h2>Этапы реализации проекта</h2>
       <ol class="steps">
@@ -156,7 +161,7 @@
     </div>
   </section>
 
-  <section class="section cta" id="pilot">
+  <section class="section cta on-night" id="pilot">
     <div class="container">
       <h2>Готовы вывести клиентский опыт на новый уровень?</h2>
       <p>Давайте начнём с анализа одного проекта вашего агентства — определим, как единый личный кабинет сделает работу эффективнее.</p>
@@ -169,7 +174,7 @@
   <div class="container"><span>Автор: Кобяшева Елизавета</span><span>Концепция продукта, 2026</span></div>
 </footer>
 
-<script src="assets/js/media.js" defer></script>
+<script src="assets/js/hero.js" defer></script>
 <script src="assets/js/reveal.js" defer></script>
 <script src="assets/js/counter.js" defer></script>
 <script src="assets/js/nav.js" defer></script>

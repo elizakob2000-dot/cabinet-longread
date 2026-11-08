@@ -1,56 +1,18 @@
-/* Разделы страницы: обложка, идея, счётчик, цитата, этапы, призыв, подвал. */
+/* Разделы страницы: идея, счётчик, цитата, этапы, призыв, подвал.
+   Тона фона чередуются: бумага, камень, бумага, графит, бумага, камень, графит. */
 
-/* Фоновое видео (обложка и цитата) приглушено до графитового тона */
-.bg-video {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.05);
-}
+.tone-stone { background: var(--tone-stone); }
+
+/* тёмные секции: цитата, призыв и подвал */
 .on-night {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: var(--night);
+  background: var(--band-dark);
   color: var(--night-ink);
 }
-.on-night::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: oklch(27% 0.006 115 / 0.6);
-}
+.on-night :focus-visible { outline-color: var(--lime); }
+.on-night .btn:hover { background: var(--night-ink); color: var(--on-lime); }
 
-/* Обложка */
-.hero {
-  display: flex;
-  align-items: flex-end;
-  min-height: 100svh;
-  padding: calc(var(--header-total) + var(--space-3xl)) 0 var(--space-2xl);
-}
-.hero__grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--space-xl) var(--space-lg);
-  align-items: end;
-}
-.hero__title {
-  grid-column: 1 / 9;
-  font-size: clamp(40px, 6vw, 88px);
-  line-height: 1.04;
-  letter-spacing: -0.04em;
-}
-.hero__lead {
-  grid-column: 9 / 13;
-  font-size: clamp(17px, 1.3vw, 20px);
-  color: var(--night-ink);
-}
-
-/* Идея */
+/* Идея: первые строки выглядывают из-под первого экрана */
+.idea { padding-top: var(--space-xl); }
 .idea__grid { display: grid; gap: var(--space-xl); }
 .idea__lead { font-size: clamp(32px, 4vw, 56px); line-height: 1.12; max-width: 16em; }
 .idea__points { max-width: 34em; border-top: 1px solid var(--ink); }
@@ -140,17 +102,17 @@
 .result { max-width: 34em; margin-top: var(--space-2xl); font-size: clamp(20px, 1.8vw, 26px); line-height: 1.5; }
 
 /* Призыв */
-.cta { border-top: 1px solid var(--rule); }
 .cta h2 { max-width: 13em; font-size: clamp(34px, 5.4vw, 80px); line-height: 1.05; }
-.cta p { max-width: 34em; margin-top: var(--space-lg); font-size: clamp(18px, 1.5vw, 22px); }
+.cta p { max-width: 34em; margin-top: var(--space-lg); font-size: clamp(18px, 1.5vw, 22px); color: var(--night-muted); }
 .cta .btn { margin-top: var(--space-xl); min-height: 56px; padding-inline: var(--space-lg); }
 
 /* Подвал */
 .site-footer {
   padding: var(--space-lg) 0 var(--space-xl);
-  border-top: 1px solid var(--rule);
+  background: var(--band-dark);
+  border-top: 1px solid color-mix(in srgb, var(--night-ink) 18%, transparent);
   font-size: 15px;
-  color: var(--muted);
+  color: var(--night-muted);
 }
 .site-footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-xs) var(--space-lg); }
 
@@ -178,10 +140,6 @@
   .idea__grid { grid-template-columns: 7fr 5fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
   .idea__points { margin-top: var(--space-sm); }
   .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 959px) {
-  .hero__title, .hero__lead { grid-column: 1 / -1; }
-  .hero__lead { max-width: 30em; }
 }
 @media (max-width: 700px) {
   .cta .btn { width: 100%; }
