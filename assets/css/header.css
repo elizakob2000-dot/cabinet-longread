@@ -1,0 +1,104 @@
+/* Верхняя панель и боковой индикатор разделов. */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 300;
+  height: var(--header-total);
+  padding-top: env(safe-area-inset-top, 0px);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  height: var(--header-h);
+}
+
+.brand {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  margin-left: -10px;
+}
+.brand::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--lime);
+  border: 1px solid var(--on-lime);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-2xs);
+  margin-left: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-md);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background-color var(--dur-micro) var(--ease);
+}
+.nav a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+.nav a.on { background: var(--lime); color: var(--on-lime); text-decoration: none; }
+
+/* боковой индикатор */
+.side-nav {
+  position: fixed;
+  z-index: 200;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xs) var(--space-2xs);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.side-nav a {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--ink);
+}
+.side-nav a::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  opacity: 0.6;
+  transition: width var(--dur-short) var(--ease), height var(--dur-short) var(--ease), opacity var(--dur-short) var(--ease);
+}
+.side-nav a:hover::after,
+.side-nav a:focus-visible::after { opacity: 1; }
+.side-nav a.on::after {
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+  background: var(--lime);
+  border-color: var(--on-lime);
+}
+
+@media (max-width: 700px) {
+  .brand { width: 40px; height: 40px; margin-left: -8px; }
+  .nav { font-size: 14px; }
+  .nav a { padding: 0 var(--space-sm); }
+  .side-nav { right: 0; padding-inline: 1px; }
+  .side-nav a { width: 22px; height: 24px; }
+}

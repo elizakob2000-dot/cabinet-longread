@@ -1,0 +1,188 @@
+/* Разделы страницы: обложка, идея, счётчик, цитата, этапы, призыв, подвал. */
+
+/* Фоновое видео (обложка и цитата) приглушено до графитового тона */
+.bg-video {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+}
+.on-night {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--night);
+  color: var(--night-ink);
+}
+.on-night::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: oklch(27% 0.006 115 / 0.6);
+}
+
+/* Обложка */
+.hero {
+  display: flex;
+  align-items: flex-end;
+  min-height: 100svh;
+  padding: calc(var(--header-total) + var(--space-3xl)) 0 var(--space-2xl);
+}
+.hero__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-xl) var(--space-lg);
+  align-items: end;
+}
+.hero__title {
+  grid-column: 1 / 9;
+  font-size: clamp(40px, 6vw, 88px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.hero__lead {
+  grid-column: 9 / 13;
+  font-size: clamp(17px, 1.3vw, 20px);
+  color: var(--night-ink);
+}
+
+/* Идея */
+.idea__grid { display: grid; gap: var(--space-xl); }
+.idea__lead { font-size: clamp(32px, 4vw, 56px); line-height: 1.12; max-width: 16em; }
+.idea__points { max-width: 34em; border-top: 1px solid var(--ink); }
+.idea__points li {
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: clamp(18px, 1.4vw, 21px);
+  line-height: 1.55;
+}
+
+/* Счётчик */
+.count h2 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.18em;
+  font-size: clamp(40px, 6vw, 88px);
+  line-height: 1.05;
+}
+.num {
+  display: inline-block;
+  min-width: 0.7em;
+  padding: 0 0.08em;
+  background: linear-gradient(transparent 64%, var(--lime) 64% 90%, transparent 90%);
+  color: var(--on-lime);
+  font-size: 1.7em;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+@media (prefers-color-scheme: dark) {
+  .num { background: var(--lime); }
+}
+.count__gloss {
+  display: block;
+  max-width: 20em;
+  margin-top: var(--space-md);
+  font: italic 500 clamp(26px, 3vw, 42px) / 1.2 var(--font-gloss);
+}
+.count__note {
+  max-width: 36em;
+  margin-top: var(--space-xl);
+  font-size: clamp(19px, 1.6vw, 24px);
+  line-height: 1.5;
+}
+
+/* Цитата */
+.quote { padding: clamp(96px, 12vw, 176px) 0; }
+.quote blockquote {
+  max-width: 18em;
+  font-weight: 300;
+  font-size: clamp(30px, 4.6vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.quote__by {
+  max-width: 36em;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--night-muted);
+  font-size: clamp(16px, 1.3vw, 19px);
+  color: var(--night-muted);
+}
+
+/* Этапы */
+.steps {
+  display: grid;
+  gap: var(--space-xl) var(--space-lg);
+  margin-top: var(--space-2xl);
+  counter-reset: step;
+}
+.steps li { counter-increment: step; padding-top: var(--space-md); border-top: 1px solid var(--ink); }
+.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--space-lg);
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.steps h3 { font-size: clamp(24px, 2.4vw, 34px); font-weight: 400; margin-bottom: var(--space-xs); }
+.steps p { max-width: 24em; color: var(--muted); }
+.result { max-width: 34em; margin-top: var(--space-2xl); font-size: clamp(20px, 1.8vw, 26px); line-height: 1.5; }
+
+/* Призыв */
+.cta { border-top: 1px solid var(--rule); }
+.cta h2 { max-width: 13em; font-size: clamp(34px, 5.4vw, 80px); line-height: 1.05; }
+.cta p { max-width: 34em; margin-top: var(--space-lg); font-size: clamp(18px, 1.5vw, 22px); }
+.cta .btn { margin-top: var(--space-xl); min-height: 56px; padding-inline: var(--space-lg); }
+
+/* Подвал */
+.site-footer {
+  padding: var(--space-lg) 0 var(--space-xl);
+  border-top: 1px solid var(--rule);
+  font-size: 15px;
+  color: var(--muted);
+}
+.site-footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-xs) var(--space-lg); }
+
+/* Появление: контент виден без скриптов, анимация только при .js */
+.js .split .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition: opacity var(--dur-long) var(--ease), transform var(--dur-long) var(--ease);
+  transition-delay: calc(var(--i) * 50ms);
+}
+.js .split.in .w { opacity: 1; transform: none; }
+.js .rv {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-long) var(--ease), transform var(--dur-long) var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js .rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .rv, .js .split .w { opacity: 1 !important; transform: none !important; }
+}
+
+@media (min-width: 960px) {
+  .idea__grid { grid-template-columns: 7fr 5fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .idea__points { margin-top: var(--space-sm); }
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 959px) {
+  .hero__title, .hero__lead { grid-column: 1 / -1; }
+  .hero__lead { max-width: 30em; }
+}
+@media (max-width: 700px) {
+  .cta .btn { width: 100%; }
+}
