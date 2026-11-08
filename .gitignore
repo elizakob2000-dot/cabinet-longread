@@ -1,0 +1,16 @@
+# система
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# редакторы
+.vscode/
+.idea/
+
+# служебное
+node_modules/
+_site/
+*.log
+
+# локальный помощник для публикации
+publish.bat
