@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Оставить заявку — Личный кабинет для улучшения клиентского опыта</title>
+  <meta name="description" content="Оставьте заявку на пилот личного кабинета: сообщение откроется в Telegram с готовым текстом.">
+  <meta name="theme-color" content="#f6f5f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171815" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Оставить заявку — Личный кабинет для улучшения клиентского опыта">
+  <meta property="og:description" content="Оставьте заявку на пилот личного кабинета: сообщение откроется в Telegram с готовым текстом.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/sections.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body data-page="apply">
+<a class="skip-link" href="#main">К содержанию</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="На главную"></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <div class="nav__item has-sub">
+        <a href="prototype.html"><span>Прототип</span></a>
+        <ul class="subnav">
+          <li><a href="prototype.html#proto">Посмотреть прототип</a></li>
+          <li><a href="prototype.html#advantages">Оценить преимущества</a></li>
+        </ul>
+      </div>
+      <div class="nav__item has-sub">
+        <a href="rollout.html"><span>Внедрение</span></a>
+        <ul class="subnav">
+          <li><a href="rollout.html#approach">Этапы реализации</a></li>
+          <li><a href="rollout.html#variants">Варианты внедрения</a></li>
+        </ul>
+      </div>
+      <a class="nav__cta" href="apply.html"><span>Оставить заявку</span></a>
+    </nav>
+  </div>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-scheme" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="5"/><rect x="15" y="3" width="6" height="5"/><rect x="9" y="16" width="6" height="5"/><path d="M6 8v3h12V8M12 11v5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 2h10v11H3z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+</svg>
+
+<main id="main">
+<section class="page-head" id="top">
+  <div class="container">
+    <h1>Оставить заявку</h1>
+  </div>
+</section>
+
+<section class="section" style="padding-top:var(--space-lg)">
+  <div class="container apply__grid">
+    <div>
+      <noscript><p class="form__note">Форма работает с включённым JavaScript. Без него напишите нам напрямую: <a href="https://t.me/lizakobyasheva" target="_blank" rel="noopener noreferrer">Telegram</a> или <a href="mailto:eliza.kob2000@gmail.com">eliza.kob2000@gmail.com</a>.</p></noscript>
+      <div id="applyWrap">
+        <form class="form" id="applyForm" novalidate>
+          <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" autocomplete="name" placeholder="Как к вам обращаться"></div>
+          <div class="field"><label for="f-agency">Агентство</label><input id="f-agency" name="agency" autocomplete="organization" placeholder="Название агентства"></div>
+          <div class="field">
+            <label for="f-contact">Как с вами связаться</label>
+            <input id="f-contact" name="contact" autocomplete="off" placeholder="Ник в Telegram или почта" aria-describedby="f-contact-hint f-contact-err" required>
+            <p class="field__hint" id="f-contact-hint">Нужно, чтобы мы могли ответить</p>
+            <p class="field__err msg-err" id="f-contact-err" role="alert"><i aria-hidden="true">!</i><span>Укажите, как с вами связаться, иначе мы не сможем ответить</span></p>
+          </div>
+          <div class="field"><label for="f-comment">Комментарий</label><textarea id="f-comment" name="comment" placeholder="Необязательно"></textarea></div>
+          <div><button class="btn" type="submit">Оставить заявку</button></div>
+        </form>
+      </div></div>
+    <aside class="aside">
+      <h2>Контакты</h2>
+      <p><a href="https://t.me/lizakobyasheva" target="_blank" rel="noopener noreferrer">Telegram</a></p>
+      <p><a href="mailto:eliza.kob2000@gmail.com">eliza.kob2000@gmail.com</a></p>
+    </aside>
+  </div>
+</section>
+<nav class="next" aria-label="Следующий шаг">
+  <div class="container next__row">
+    <a class="next__link" href="index.html"><span>На главную</span><svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></a>
+  </div>
+</nav>
+</main>
+<dialog class="modal" id="applyOk" aria-labelledby="applyOkTitle">
+  <div class="modal__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+  <h2 id="applyOkTitle">Заявка отправлена</h2>
+  <p>Спасибо! Мы свяжемся с вами по указанным контактам.</p>
+  <div class="actions"><a class="btn" href="index.html">На главную</a><button class="link-btn" type="button" data-close>Закрыть</button></div>
+</dialog>
+
+<dialog class="modal" id="applyFail" aria-labelledby="applyFailTitle">
+  <div class="modal__icon modal__icon--warn" aria-hidden="true">!</div>
+  <h2 id="applyFailTitle">Не получилось отправить заявку</h2>
+  <p>Свяжитесь с нами напрямую:</p>
+  <ul class="modal__contacts">
+    <li><a href="https://t.me/lizakobyasheva" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+    <li><a href="mailto:eliza.kob2000@gmail.com">eliza.kob2000@gmail.com</a></li>
+  </ul>
+  <div class="actions"><button class="btn btn--line" type="button" data-close>Вернуться к форме</button></div>
+</dialog>
+
+<footer class="site-footer on-night">
+  <div class="container">
+    <div class="foot__grid">
+      <nav class="foot__col foot__sections" aria-label="Страницы сайта">
+        <p class="foot__h">Страницы</p>
+        <ul>
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="prototype.html">Прототип</a></li>
+          <li><a href="rollout.html">Внедрение</a></li>
+          <li><a href="apply.html">Оставить заявку</a></li>
+        </ul>
+      </nav>
+      <div class="foot__col foot__contacts">
+        <p class="foot__h">Контакты</p>
+        <ul>
+          <li><a href="https://t.me/lizakobyasheva" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        </ul>
+      </div>
+      <div class="foot__col foot__author">
+        <p class="foot__h">Автор</p>
+        <p>Кобяшева Елизавета</p>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <span>Концепция продукта, 2026</span>
+      <button class="foot__reset" type="button" data-reset>Начать путь заново</button>
+      <a href="#top">Наверх</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/memory.js" defer></script>
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/form.js" defer></script>
+<script src="assets/js/nav.js" defer></script>
+</body>
+</html>

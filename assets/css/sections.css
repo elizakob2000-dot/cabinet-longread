@@ -1,5 +1,5 @@
-/* Разделы страницы: идея, счётчик, цитата, этапы, призыв, подвал.
-   Тона фона чередуются: бумага, камень, бумага, графит, бумага, камень, графит. */
+/* Разделы страницы: идея, цитата, этапы, призыв, подвал.
+   Тона фона чередуются: бумага, камень, графит, бумага, камень, графит. */
 
 .tone-stone { background: var(--tone-stone); }
 
@@ -23,43 +23,6 @@
   line-height: 1.55;
 }
 
-/* Счётчик */
-.count h2 {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.18em;
-  font-size: clamp(40px, 6vw, 88px);
-  line-height: 1.05;
-}
-.num {
-  display: inline-block;
-  min-width: 0.7em;
-  padding: 0 0.08em;
-  background: linear-gradient(transparent 64%, var(--lime) 64% 90%, transparent 90%);
-  color: var(--on-lime);
-  font-size: 1.7em;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-@media (prefers-color-scheme: dark) {
-  .num { background: var(--lime); }
-}
-.count__gloss {
-  display: block;
-  max-width: 20em;
-  margin-top: var(--space-md);
-  font: italic 500 clamp(26px, 3vw, 42px) / 1.2 var(--font-gloss);
-}
-.count__note {
-  max-width: 36em;
-  margin-top: var(--space-xl);
-  font-size: clamp(19px, 1.6vw, 24px);
-  line-height: 1.5;
-}
-
 /* Цитата */
 .quote { padding: clamp(96px, 12vw, 176px) 0; }
 .quote blockquote {
@@ -79,42 +42,138 @@
   color: var(--night-muted);
 }
 
-/* Этапы */
-.steps {
+/* Этапы: дорожная карта. Узлы на линии, линия и узлы загораются по очереди, в конце флажок «Результат» */
+.road {
+  --node: 48px;
+  position: relative;
   display: grid;
-  gap: var(--space-xl) var(--space-lg);
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.35fr);
+  gap: 0 var(--space-lg);
   margin-top: var(--space-2xl);
-  counter-reset: step;
+  counter-reset: road;
 }
-.steps li { counter-increment: step; padding-top: var(--space-md); border-top: 1px solid var(--ink); }
-.steps li::before {
-  content: counter(step, decimal-leading-zero);
-  display: block;
-  margin-bottom: var(--space-lg);
-  font-size: clamp(44px, 5vw, 72px);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.04em;
+.road > li { position: relative; padding-top: calc(var(--node) + var(--space-lg)); }
+/* узел */
+.road__step { counter-increment: road; }
+.road__step::before,
+.road__goal .road__flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  box-sizing: border-box;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  color: var(--ink);
+  transition: background-color var(--dur-long) var(--ease), border-color var(--dur-long) var(--ease);
+}
+.road__step::before {
+  content: counter(road);
+  font: 600 18px / 1 var(--font);
   font-variant-numeric: tabular-nums;
 }
-.steps h3 { font-size: clamp(24px, 2.4vw, 34px); font-weight: 400; margin-bottom: var(--space-xs); }
-.steps p { max-width: 24em; color: var(--muted); }
-.result { max-width: 34em; margin-top: var(--space-2xl); font-size: clamp(20px, 1.8vw, 26px); line-height: 1.5; }
+.road__goal .road__flag { padding: 11px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+/* линия от узла к следующему */
+.road > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--node) / 2);
+  left: var(--node);
+  width: calc(100% + var(--space-lg) - var(--node));
+  height: 2px;
+  background: var(--rule);
+}
+.road > li:not(:last-child) .road__line,
+.road > li:not(:last-child)::before { z-index: 1; }
+.road h3 { margin-bottom: var(--space-xs); font-size: clamp(22px, 2.2vw, 30px); font-weight: 400; line-height: 1.15; }
+.road p { max-width: 18em; color: var(--muted); }
+.road__goal p { max-width: 24em; color: var(--ink); font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; }
 
+/* итоговое состояние (без скрипта и при «меньше движения»): всё горит */
+.road__step::before, .road__goal .road__flag { background: var(--lime); border-color: var(--on-lime); color: var(--on-lime); }
+.road > li:not(:last-child)::after { background: var(--ink); }
+
+/* с JS узлы и линии зажигаются по очереди, когда блок виден */
+.js .road:not(.in) .road__step::before,
+.js .road:not(.in) .road__goal .road__flag { background: var(--paper); border-color: var(--ink); color: var(--ink); }
+.js .road > li:not(:last-child)::after { background: linear-gradient(var(--ink), var(--ink)) no-repeat 0 0 / 0% 100%, var(--rule); transition: background-size 0.7s var(--ease); }
+.js .road.in > li:not(:last-child)::after { background-size: 100% 100%, auto; }
+.js .road.in .road__step:nth-child(1)::before { transition-delay: 0.1s; }
+.js .road.in .road__step:nth-child(1)::after { transition-delay: 0.3s; }
+.js .road.in .road__step:nth-child(2)::before { transition-delay: 1s; }
+.js .road.in .road__step:nth-child(2)::after { transition-delay: 1.2s; }
+.js .road.in .road__step:nth-child(3)::before { transition-delay: 1.9s; }
+.js .road.in .road__step:nth-child(3)::after { transition-delay: 2.1s; }
+.js .road.in .road__goal .road__flag { transition-delay: 2.8s; }
+@media (prefers-reduced-motion: reduce) {
+  .js .road:not(.in) .road__step::before, .js .road:not(.in) .road__goal .road__flag { background: var(--lime); border-color: var(--on-lime); color: var(--on-lime); }
+  .js .road > li:not(:last-child)::after { background: var(--ink); }
+}
+
+@media (max-width: 959px) {
+  /* вертикальная карта: узлы слева, линия вниз */
+  .road { grid-template-columns: 1fr; gap: var(--space-xl) 0; margin-top: var(--space-xl); }
+  .road > li { padding: 0 0 0 calc(var(--node) + var(--space-md)); min-height: var(--node); }
+  .road > li:not(:last-child)::after {
+    top: var(--node);
+    left: calc(var(--node) / 2 - 1px);
+    width: 2px;
+    height: calc(100% + var(--space-xl) - var(--node) + 0px);
+  }
+  .js .road > li:not(:last-child)::after { background: linear-gradient(var(--ink), var(--ink)) no-repeat 0 0 / 100% 0%, var(--rule); transition: background-size 0.7s var(--ease); }
+  .js .road.in > li:not(:last-child)::after { background-size: 100% 100%, auto; }
+  .road h3 { padding-top: 8px; }
+}
 /* Призыв */
 .cta h2 { max-width: 13em; font-size: clamp(34px, 5.4vw, 80px); line-height: 1.05; }
 .cta p { max-width: 34em; margin-top: var(--space-lg); font-size: clamp(18px, 1.5vw, 22px); color: var(--night-muted); }
 .cta .btn { margin-top: var(--space-xl); min-height: 56px; padding-inline: var(--space-lg); }
 
-/* Подвал */
+/* Подвал: колонки с информацией, ниже строка с годом и ссылкой «Наверх» */
 .site-footer {
-  padding: var(--space-lg) 0 var(--space-xl);
+  padding: var(--space-2xl) 0 var(--space-xl);
   background: var(--band-dark);
   border-top: 1px solid color-mix(in srgb, var(--night-ink) 18%, transparent);
-  font-size: 15px;
   color: var(--night-muted);
+  font-size: 15px;
+  line-height: 1.5;
 }
-.site-footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-xs) var(--space-lg); }
+.foot__grid {
+  display: grid;
+  gap: var(--space-xl) var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.foot__h { margin-bottom: var(--space-sm); color: var(--night-ink); font-weight: 600; }
+.foot__col ul { display: grid; gap: var(--space-2xs); }
+.site-footer a { color: var(--night-ink); text-underline-offset: 0.25em; }
+.site-footer a:hover { text-decoration-thickness: 2px; }
+.foot__col a, .foot__bottom a { display: inline-flex; min-height: 32px; align-items: center; }
+.foot__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-lg);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid color-mix(in srgb, var(--night-ink) 18%, transparent);
+}
+
+/* планшет и телефон */
+@media (max-width: 959px) {
+  .foot__bottom { padding-right: 28px; }
+}
+@media (max-width: 700px) {
+  .site-footer { padding: var(--space-xl) 0 var(--space-2xl); }
+  .foot__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-md); }
+  .foot__sections { grid-column: 1; grid-row: 1 / span 2; }
+  .foot__contacts { grid-column: 2; grid-row: 1; }
+  .foot__author { grid-column: 2; grid-row: 2; }
+  .foot__bottom { margin-top: var(--space-xl); }
+}
 
 /* Появление: контент виден без скриптов, анимация только при .js */
 .js .split .w {
@@ -139,7 +198,6 @@
 @media (min-width: 960px) {
   .idea__grid { grid-template-columns: 7fr 5fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
   .idea__points { margin-top: var(--space-sm); }
-  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
   .cta .btn { width: 100%; }

@@ -17,7 +17,6 @@
   var go = document.getElementById('go');
   var hintRow = document.getElementById('hr');
   var after = document.getElementById('after');
-  var desc = document.getElementById('desc');
   var win = document.querySelector('.k-win');
   var list = document.getElementById('lst');
   var items = $('.k-item', list);
@@ -25,7 +24,6 @@
 
   var ROT = [-3, 2, -1.5, 3, -2, 1.5, -2.5];
   var SHIFT = [0, 6, 0, -4, 4, 0, -2];
-  var PLACEHOLDER = 'Нажмите на плюс — подсветим его в кабинете';
   var auto = false, autoP = 0, anim = 0;
 
   function clamp(x) { return Math.max(0, Math.min(1, x)); }
@@ -39,13 +37,11 @@
   function setActive(n) {
     $('.k-z.k-on').forEach(function (z) { z.classList.remove('k-on'); });
     items.forEach(function (b) { b.classList.remove('k-act'); });
-    desc.textContent = PLACEHOLDER;
     win.classList.toggle('k-focus', !!n);
     list.classList.toggle('k-focus', !!n);
     if (!n) return;
     $('.k-z[data-n="' + n + '"]').forEach(function (z) { z.classList.add('k-on'); });
     items[n - 1].classList.add('k-act');
-    desc.textContent = items[n - 1].dataset.t;
   }
 
   /* автоподсветка: один круг по трём плюсам, затем останавливается */

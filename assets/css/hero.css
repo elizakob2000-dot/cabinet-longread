@@ -1,6 +1,6 @@
-/* Первый экран: заголовок и текст стоят слева сверху (зона чтения буквой F). Почта, мессенджеры и таблицы
-   лежат небрежно, затем схлопываются в плашку «Личный кабинет». Анимация запускается скриптом (hero.js).
-   Без скрипта и при «меньше движения» сразу виден итог: заголовок, текст и плашка. */
+/* Первый экран. Почта, мессенджеры и таблицы лежат россыпью; пока на них наведён курсор, их становится больше,
+   и в конце всё схлопывается в плашку «Личный кабинет». Анимацию ведёт hero.js.
+   Без скрипта видны заголовок и три картинки; при «меньше движения» плашка появляется сразу. */
 
 .hero {
   position: relative;
@@ -17,6 +17,8 @@
   column-gap: var(--space-lg);
   row-gap: var(--space-lg);
   align-content: start;
+  /* высота нужна, чтобы иконкам хватало места справа от заголовка */
+  min-height: clamp(360px, 54vh, 560px);
 }
 .hero__title {
   grid-column: 1 / 8;
@@ -24,26 +26,6 @@
   line-height: 1.04;
   letter-spacing: -0.04em;
 }
-.hero__lead {
-  grid-column: 1 / 7;
-  max-width: 28em;
-  font-size: clamp(17px, 1.3vw, 20px);
-}
-.hero__badge {
-  grid-column: 1 / 7;
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: var(--space-sm);
-  padding: 14px 22px 14px 16px;
-  background: var(--lime);
-  border: 1px solid var(--on-lime);
-  border-radius: var(--radius);
-  color: var(--on-lime);
-  font: 600 18px / 1.2 var(--font);
-}
-.hero__badge svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .hw { display: inline-block; }
 
 /* маркер рисуется градиентом, чтобы вести его слева направо */
@@ -54,21 +36,46 @@
   .hero .mark { background-image: linear-gradient(var(--lime), var(--lime)); }
 }
 
-/* «вещи»: почта, мессенджеры, таблицы */
-.hero__things { position: absolute; inset: 0; list-style: none; pointer-events: none; }
-.thing {
+@keyframes h-rise { from { opacity: 0; transform: translateY(0.4em); } to { opacity: 1; transform: none; } }
+@keyframes h-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes h-draw { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+@keyframes h-bob { from { transform: translateY(0); } to { transform: translateY(-7px); } }
+@keyframes h-nudge { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(4px, -4px); } }
+
+.hero.play .hw { animation: h-rise 0.7s var(--ease) both; animation-delay: calc(0.1s + var(--i) * 50ms); }
+.hero.play .mark { background-size: 0% 100%; animation: h-draw 0.9s var(--ease) 1s forwards; }
+
+/* Сцена справа. Пока на неё наведён курсор, почты, сообщений и таблиц становится всё больше (hero.js включает
+   их по одной), а в конце всё схлопывается в плашку «Личный кабинет». */
+.hero__scene { position: absolute; left: 52%; right: 0; top: 0; bottom: 0; }
+.hero__stage {
   position: absolute;
-  width: clamp(116px, 13vw, 192px);
-  opacity: 0;
+  inset: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
+.hero__stage:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.hero__things { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.thing {
+  --w: clamp(100px, 10.5vw, 150px);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: calc(var(--w) * var(--s, 1));
+  rotate: var(--r);
+  transition: translate 0.55s cubic-bezier(0.6, 0, 0.9, 0.4), scale 0.55s cubic-bezier(0.6, 0, 0.9, 0.4), opacity 0.45s ease-in;
+}
+.hero.play .thing:not(.extra) { animation: h-fade 0.7s var(--ease) 1.1s backwards; }
 .thing img {
   display: block;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 14px 14px oklch(25% 0.006 120 / 0.2)) drop-shadow(0 2px 3px oklch(25% 0.006 120 / 0.22));
+  filter: drop-shadow(0 12px 12px oklch(25% 0.006 120 / 0.2)) drop-shadow(0 2px 3px oklch(25% 0.006 120 / 0.22));
 }
 @media (prefers-color-scheme: dark) {
-  .thing img { filter: drop-shadow(0 14px 14px oklch(0% 0 0 / 0.5)) drop-shadow(0 2px 3px oklch(0% 0 0 / 0.5)); }
+  .thing img { filter: drop-shadow(0 12px 12px oklch(0% 0 0 / 0.5)) drop-shadow(0 2px 3px oklch(0% 0 0 / 0.5)); }
 }
 .thing span {
   display: block;
@@ -77,39 +84,155 @@
   font: 500 13px / 1.2 var(--font);
   color: var(--muted);
 }
+/* первые три видны сразу и слегка дышат */
+.thing:not(.extra) img { animation: h-bob 3.2s ease-in-out infinite alternate; }
+.t2 img { animation-delay: -1.1s; }
+.t3 img { animation-delay: -2.1s; }
+.hero__stage.is-active .thing img { animation: none; }
+.t1 { --x: 14%; --y: 3%;  --r: -9deg; --s: 1.1; }
+.t2 { --x: 60%; --y: 20%; --r: 7deg;  --s: 1.1; }
+.t3 { --x: 8%;  --y: 50%; --r: -5deg; --s: 1.1; }
 
-/* слева текст и плашка, справа разбросаны вещи */
-.t1 { left: 61%; top: 1%; rotate: -9deg; }
-.t2 { left: 80%; top: 25%; rotate: 7deg; }
-.t3 { left: 58%; top: 48%; rotate: -5deg; }
+/* добавочные: появляются с «выскоком», ушёл курсор — исчезают */
+.thing.extra { opacity: 0; scale: 0.4; transition: opacity 0.22s ease-out, scale 0.38s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.thing.extra.on { opacity: 1; scale: 1; }
 
-@keyframes h-rise { from { opacity: 0; transform: translateY(0.4em); } to { opacity: 1; transform: none; } }
-@keyframes h-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes h-draw { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
-@keyframes th-in { from { opacity: 0; transform: translateY(18px) scale(0.92); } to { opacity: 1; transform: none; } }
-@keyframes th-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.28); } }
-@keyframes badge-in { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: none; } }
+/* готово: всё летит к центру и исчезает, на месте появляется плашка */
+.hero__stage.is-done .thing,
+.hero__stage.is-done .thing.extra,
+.hero__stage.is-done .thing.extra.on {
+  translate: var(--dx, 0px) var(--dy, 0px);
+  scale: 0.15;
+  opacity: 0;
+  transition: translate 0.55s cubic-bezier(0.6, 0, 0.9, 0.4), scale 0.55s cubic-bezier(0.6, 0, 0.9, 0.4), opacity 0.45s ease-in 0.1s;
+}
 
-.hero.play .hw { animation: h-rise 0.7s var(--ease) both; animation-delay: calc(0.1s + var(--i) * 50ms); }
-.hero.play .mark { background-size: 0% 100%; animation: h-draw 0.9s var(--ease) 1s forwards; }
-.hero.play .hero__lead { animation: h-fade 0.8s ease 0.6s both; }
-.hero.play .thing { animation: th-in 0.7s var(--ease) both, th-out 0.8s var(--ease) forwards; }
-.hero.play .t1 { animation-delay: 1s, 3.2s; }
-.hero.play .t2 { animation-delay: 1.3s, 3.3s; }
-.hero.play .t3 { animation-delay: 1.6s, 3.4s; }
-.hero.play .hero__badge { animation: badge-in 0.6s var(--ease) 3.8s both; }
+.hero__plate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  visibility: hidden;
+}
+.hero__plate a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 22px 30px 22px 22px;
+  background: var(--lime);
+  color: var(--on-lime);
+  border: 1px solid var(--on-lime);
+  border-radius: var(--radius);
+  box-shadow: 0 22px 44px oklch(25% 0.006 120 / 0.22);
+  font: 600 clamp(22px, 2.5vw, 34px) / 1.1 var(--font);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  opacity: 0;
+  scale: 0.6;
+  transition: opacity 0.2s ease-in, scale 0.2s ease-in, background-color var(--dur-micro) var(--ease), color var(--dur-micro) var(--ease);
+}
+.hero__plate a:hover { background: var(--on-lime); color: var(--lime); }
+.hero__plate .doc {
+  width: 1.5em; height: 1.5em; padding: 0.3em; box-sizing: border-box; flex: none;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--on-lime); border-radius: 6px;
+  fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+}
+.hero__plate .icon { width: 0.7em; height: 0.7em; flex: none; }
+.hero__stage.is-done ~ .hero__plate { visibility: visible; }
+.hero__stage.is-done ~ .hero__plate a { pointer-events: auto; }
+.hero__stage.is-done ~ .hero__plate a { opacity: 1; scale: 1; transition: opacity 0.35s ease-out 0.4s, scale 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) 0.4s, background-color var(--dur-micro) var(--ease), color var(--dur-micro) var(--ease); }
+
+/* подсказка: пока не наведено, зовёт навести (на сенсорных экранах зовёт нажать) */
+.hero__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  z-index: 1;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 11px 18px 11px 14px;
+  background: var(--lime);
+  color: var(--on-lime);
+  border: 1px solid var(--on-lime);
+  border-radius: 999px;
+  font: 600 16px / 1.2 var(--font);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out;
+}
+.hero.play .hero__hint { animation: h-fade 0.6s var(--ease) 1.8s backwards; }
+.hero__hint svg { width: 18px; height: 18px; fill: currentColor; stroke: var(--paper); stroke-width: 1; stroke-linejoin: round; animation: h-nudge 1.6s ease-in-out infinite; }
+.hero__stage.is-active .hero__hint { opacity: 0; }
+.hint-tap { display: none; }
+@media (hover: none) { .hint-hover { display: none; } .hint-tap { display: inline; } }
+html:not(.js) .hero__hint { display: none; }
+
+.hero__pause {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease), border-color var(--dur-micro) var(--ease);
+}
+.hero__pause:hover { color: var(--ink); border-color: var(--ink); }
+.hero__pause svg { width: 16px; height: 16px; fill: currentColor; stroke: none; }
+.hero__pause .i-play { display: none; }
+.hero__pause[aria-pressed="true"] .i-play { display: block; }
+.hero__pause[aria-pressed="true"] .i-pause { display: none; }
+@keyframes h-arrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+.hero__plate .arrow { width: 0.95em; height: 0.95em; animation: h-arrow 1.4s ease-in-out infinite; }
+.hero.is-paused .thing img, .hero.is-paused .hero__plate .arrow { animation: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
 @media (max-width: 959px) {
   .hero { min-height: calc(100svh - 96px); padding-top: calc(var(--header-total) + var(--space-lg)); }
-  .hero__title, .hero__lead, .hero__badge { grid-column: 1 / -1; }
-  .hero__things { position: static; grid-column: 1 / -1; display: flex; justify-content: space-between; gap: var(--space-md); margin-top: var(--space-md); }
-  .thing { position: static; width: 29%; }
-  .thing.t1 { rotate: -6deg; } .thing.t2 { rotate: 5deg; } .thing.t3 { rotate: -4deg; }
+  .hero__title { grid-column: 1 / -1; }
+  .hero__scene { position: relative; left: auto; right: auto; top: auto; bottom: auto; grid-column: 1 / -1; height: 340px; margin-top: var(--space-xs); }
+  .thing { --w: clamp(84px, 26vw, 140px); }
+  .hero__pause { position: static; grid-column: 1 / -1; justify-self: end; margin-right: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero.play .hw, .hero.play .hero__lead, .hero.play .hero__badge { animation: none; }
+  .hero.play .hw, .hero.play .thing:not(.extra), .hero.play .hero__hint { animation: none; }
   .hero.play .mark { animation: none; background-size: 100% 100%; }
-  .hero.play .thing { animation: none; opacity: 0; }
+  .thing img, .hero__hint svg, .hero__plate .arrow { animation: none; }
+  .hero__pause { display: none; }
+  .thing, .thing.extra, .hero__plate a { transition: none !important; }
 }
 
+/* Верстка первого экрана на компьютере: заголовок сверху слева, поле с картинками на весь экран,
+   плашка «Личный кабинет» встаёт под заголовком по левому краю контейнера. */
+.hero { min-height: calc(100svh - 160px); }
+.hero__grid { min-height: clamp(380px, 56vh, 560px); }
+@media (max-width: 959px) {
+  .hero { min-height: calc(100svh - 120px); }
+}
+@media (min-width: 960px) {
+  :root { --cl: calc((100vw - min(100vw, var(--container))) / 2 + var(--gutter)); }
+  .hero { min-height: calc(100svh - 40px); }
+  .hero__grid { position: static; min-height: calc(100svh - 150px); align-content: start; }
+  .hero__title { grid-column: 1 / 9; position: relative; z-index: 2; pointer-events: none; font-size: clamp(44px, 5.6vw, 88px); }
+  .hero__scene { position: absolute; inset: 0; z-index: 1; }
+  .thing { --w: clamp(112px, 10vw, 150px); }
+  .t1 { --x: 56%; --y: 12%; }
+  .t2 { --x: 74%; --y: 38%; }
+  .t3 { --x: 40%; --y: 62%; }
+  .hero__plate { padding: 0; align-items: flex-start; justify-content: flex-start; }
+  .hero__plate a { margin: 58svh 0 0 var(--cl); }
+  .hero__pause { right: 56px; bottom: 28px; }
+}

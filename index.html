@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Личный кабинет для улучшения клиентского опыта">
-  <meta property="og:description" content="Концепция единого личного кабинета для клиентов рекламного агентства.">
+  <meta property="og:description" content="Концепция единого личного кабинета для клиентов рекламного агентства: меньше времени на поиск информации и быстрее решения.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
@@ -19,31 +19,42 @@
   <link rel="stylesheet" href="assets/css/hero.css">
   <link rel="stylesheet" href="assets/css/sections.css">
   <link rel="stylesheet" href="assets/css/cabinet.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
   <script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body data-page="index">
 <a class="skip-link" href="#idea">К содержанию</a>
 
 <header class="site-header">
   <div class="container">
-    <a class="brand" href="#top" aria-label="В начало страницы"></a>
-    <nav class="nav" aria-label="Навигация по странице">
-      <a href="#idea">Идея</a>
-      <a href="#cabinet">Посмотреть прототип</a>
-      <a href="#approach">Этапы проекта</a>
-      <a href="#pilot">Обсудить пилот</a>
+    <a class="brand" href="index.html" aria-label="На главную"></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <div class="nav__item has-sub">
+        <a href="prototype.html"><span>Прототип</span></a>
+        <ul class="subnav">
+          <li><a href="prototype.html#proto">Посмотреть прототип</a></li>
+          <li><a href="prototype.html#advantages">Оценить преимущества</a></li>
+        </ul>
+      </div>
+      <div class="nav__item has-sub">
+        <a href="rollout.html?from=home"><span>Внедрение</span></a>
+        <ul class="subnav">
+          <li><a href="rollout.html#approach">Этапы реализации</a></li>
+          <li><a href="rollout.html?from=home#variants">Варианты внедрения</a></li>
+        </ul>
+      </div>
+      <a class="nav__cta" href="apply.html"><span>Оставить заявку</span></a>
     </nav>
   </div>
 </header>
 
-<nav class="side-nav" aria-label="Прогресс по разделам">
-  <a href="#top" aria-label="Первый экран" title="Первый экран"></a>
-  <a href="#idea" aria-label="Идея" title="Идея"></a>
-  <a href="#two-sides" aria-label="Две стороны" title="Две стороны"></a>
-  <a href="#quote" aria-label="Принцип" title="Принцип"></a>
-  <a href="#cabinet" aria-label="Один кабинет" title="Один кабинет"></a>
-  <a href="#approach" aria-label="Этапы проекта" title="Этапы проекта"></a>
-  <a href="#pilot" aria-label="Пилот" title="Пилот"></a>
+<nav class="side-nav" aria-label="Разделы страницы">
+  <a href="#top"><span class="sn-label"><span>Первый экран</span></span></a>
+  <a href="#idea"><span class="sn-label"><span>Идея</span></span></a>
+  <a href="#quote"><span class="sn-label"><span>Принцип</span></span></a>
+  <a href="#cabinet"><span class="sn-label"><span>Один кабинет</span></span></a>
+  <a href="#approach"><span class="sn-label"><span>Этапы проекта</span></span></a>
+  <a href="#pilot"><span class="sn-label"><span>Оставить заявку</span></span></a>
 </nav>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -57,35 +68,33 @@
   <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
 </svg>
 
+<main id="main">
 <section class="hero" id="top">
   <div class="container hero__grid">
     <h1 class="hero__title"><span class="hw" style="--i:0">Как</span> <span class="hw" style="--i:1">личный</span> <span class="hw" style="--i:2">кабинет</span> <span class="hw" style="--i:3">может</span> <span class="mark"><span class="hw" style="--i:4">улучшить</span> <span class="hw" style="--i:5">клиентский</span> <span class="hw" style="--i:6">опыт</span></span>?</h1>
-    <p class="hero__lead">Разрабатываю концепцию единого личного кабинета для клиентов рекламного агентства, чтобы меньше времени уходило на поиск информации и быстрее принимались решения.</p>
-    <p class="hero__badge"><svg aria-hidden="true"><use href="#i-doc"/></svg>Личный кабинет</p>
-    <ul class="hero__things" aria-hidden="true">
-      <li class="thing t1"><img src="assets/img/mail.png" alt="" width="360" height="318"><span>Почта</span></li>
-      <li class="thing t2"><img src="assets/img/chat.png" alt="" width="360" height="269"><span>Мессенджеры</span></li>
-      <li class="thing t3"><img src="assets/img/table.png" alt="" width="360" height="318"><span>Таблицы</span></li>
-    </ul>
+    <div class="hero__scene">
+    <div class="hero__stage" id="stage" role="button" tabindex="0" aria-label="Почта, мессенджеры и таблицы: наведите, чтобы их стало больше и они собрались в личный кабинет" aria-describedby="heroLive">
+      <ul class="hero__things" aria-hidden="true">
+        <li class="thing t1"><img src="assets/img/mail.png" alt="" width="360" height="318"><span>Почта</span></li>
+        <li class="thing t2"><img src="assets/img/chat.png" alt="" width="360" height="269"><span>Мессенджеры</span></li>
+        <li class="thing t3"><img src="assets/img/table.png" alt="" width="360" height="318"><span>Таблицы</span></li>
+      </ul>
+      <p class="hero__hint" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l12 8-5.2 1.3L15.5 18l-2.6 1.2-2.7-5.6L6 17z"/></svg><span class="hint-hover">Наведите сюда</span><span class="hint-tap">Нажмите сюда</span></p>
+    </div>
+    <div class="hero__plate"><a href="#idea" aria-label="Личный кабинет: перейти к следующему блоку"><svg class="doc" aria-hidden="true"><use href="#i-doc"/></svg>Личный кабинет <svg class="icon arrow" aria-hidden="true"><use href="#i-down"/></svg></a></div>
+    </div>
+    <button class="hero__pause" type="button" aria-pressed="false" aria-label="Остановить анимацию"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg></button>
+    <p class="sr-only" id="heroLive" aria-live="polite"></p>
   </div>
 </section>
 
-<main>
-  <section class="section idea tone-stone" id="idea">
+<section class="section idea tone-stone" id="idea">
     <div class="container idea__grid">
       <h2 class="idea__lead split">Личный кабинет собирает всю информацию о проекте в одном месте.</h2>
       <ul class="idea__points">
         <li class="rv" style="--d:.15s">Команда агентства обновляет информацию о проекте в одном месте — CRM-системе, которая передаёт её в личный кабинет клиента.</li>
         <li class="rv" style="--d:.3s">Клиент в любой момент видит, что происходит с проектом, и не тратит время на поиск информации в почте и мессенджерах.</li>
       </ul>
-    </div>
-  </section>
-
-  <section class="band count" id="two-sides">
-    <div class="container">
-      <h2 aria-label="от 5 человек">от <span class="num" id="cnt" aria-hidden="true">5</span> человек</h2>
-      <span class="count__gloss">со стороны клиента участвуют в одном рекламном проекте</span>
-      <p class="count__note">Личный кабинет помогает <span class="mark">всем</span> участникам процесса быть в курсе проекта. <span class="mark">Меньше повторных вопросов — быстрее принимаются решения.</span></p>
     </div>
   </section>
 
@@ -135,14 +144,12 @@
           <span class="k-hint"><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg><span id="ht" aria-live="polite">Прокрутите вниз — вкладки соберутся в кабинет</span></span>
         </div>
         <div class="k-after" id="after">
-          <h3 class="k-lh"><span class="mark">3 плюса</span> личного кабинета для клиента</h3>
           <ul class="k-lst" id="lst">
-            <li><button class="k-item" type="button" data-t="Клиент всегда может посмотреть, на каком этапе находится проект."><b class="k-cn">1</b><span class="k-body"><span class="k-t"><span class="k-lg">Отслеживание сроков</span><span class="k-sh">Сроки</span></span><span class="k-p">Клиент всегда может посмотреть, на каком этапе находится проект.</span></span></button></li>
-            <li><button class="k-item" type="button" data-t="Все материалы по проектам находятся в одном месте, и нужный файл легко найти."><b class="k-cn">2</b><span class="k-body"><span class="k-t"><span class="k-lg">Хранение материалов проекта</span><span class="k-sh">Материалы</span></span><span class="k-p">Все материалы по проектам находятся в одном месте, и нужный файл легко найти.</span></span></button></li>
-            <li><button class="k-item" type="button" data-t="Материалы проекта можно утверждать поэтапно, не выходя из одного пространства."><b class="k-cn">3</b><span class="k-body"><span class="k-t"><span class="k-lg">Утверждение</span><span class="k-sh">Утверждение</span></span><span class="k-p">Материалы проекта можно утверждать поэтапно, не выходя из одного пространства.</span></span></button></li>
+            <li><button class="k-item" type="button"><b class="k-cn">1</b><span class="k-body"><span class="k-t"><span class="k-lg">Отслеживание сроков</span><span class="k-sh">Сроки</span></span></span></button></li>
+            <li><button class="k-item" type="button"><b class="k-cn">2</b><span class="k-body"><span class="k-t"><span class="k-lg">Хранение материалов проекта</span><span class="k-sh">Материалы</span></span></span></button></li>
+            <li><button class="k-item" type="button"><b class="k-cn">3</b><span class="k-body"><span class="k-t"><span class="k-lg">Утверждение</span><span class="k-sh">Утверждение</span></span></span></button></li>
           </ul>
-          <p class="k-desc" id="desc" aria-live="polite"></p>
-          <a class="btn btn--line k-proto" href="#pilot">Посмотреть прототип личного кабинета <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></a>
+          <a class="btn btn--line k-proto" href="prototype.html">Посмотреть прототип личного кабинета <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></a>
         </div>
       </div>
 
@@ -152,32 +159,61 @@
   <section class="band tone-stone" id="approach">
     <div class="container">
       <h2>Этапы реализации проекта</h2>
-      <ol class="steps">
-        <li><h3>Анализ и проектирование</h3><p>Изучаем бизнес-процессы, потребности клиентов и определяем функции кабинета.</p></li>
-        <li><h3>Разработка и интеграция</h3><p>Создаём понятный интерфейс, настраиваем личные кабинеты, подключаем CRM.</p></li>
-        <li><h3>Тестирование и запуск</h3><p>Проверяем работу и вводим кабинет в эксплуатацию.</p></li>
+      <ol class="road" id="road">
+        <li class="road__step"><h3>Анализ и проектирование</h3><p>Изучаем процессы и потребности клиентов</p></li>
+        <li class="road__step"><h3>Разработка и интеграция</h3><p>Создаём интерфейс и подключаем CRM</p></li>
+        <li class="road__step"><h3>Тестирование и запуск</h3><p>Проверяем работу кабинета</p></li>
+        <li class="road__goal"><svg class="road__flag" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4M6 5h12l-2.5 4L18 13H6"/></svg><p><span class="mark">Результат</span> — клиенту удобно работать с агентством: он больше доверяет команде и охотнее возвращается.</p></li>
       </ol>
-      <p class="result"><span class="mark">Результат</span> — теперь клиенту удобно работать с агентством: он больше доверяет команде, охотнее возвращается с новыми задачами и рекомендует её другим.</p>
+      <p class="more-row"><a class="more" href="rollout.html?from=home"><span>Варианты внедрения</span><svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></a></p>
     </div>
   </section>
 
   <section class="section cta on-night" id="pilot">
     <div class="container">
       <h2>Готовы вывести клиентский опыт на новый уровень?</h2>
-      <p>Давайте начнём с анализа одного проекта вашего агентства — определим, как единый личный кабинет сделает работу эффективнее.</p>
-      <a class="btn" href="https://t.me/lizakobyasheva" target="_blank" rel="noopener noreferrer">Обсудить пилот <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></a>
+      <a class="btn" href="apply.html">Оставить заявку <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg></a>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="container"><span>Автор: Кобяшева Елизавета</span><span>Концепция продукта, 2026</span></div>
+<footer class="site-footer on-night">
+  <div class="container">
+    <div class="foot__grid">
+      <nav class="foot__col foot__sections" aria-label="Страницы сайта">
+        <p class="foot__h">Страницы</p>
+        <ul>
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="prototype.html">Прототип</a></li>
+          <li><a href="rollout.html?from=home">Внедрение</a></li>
+          <li><a href="apply.html">Оставить заявку</a></li>
+        </ul>
+      </nav>
+      <div class="foot__col foot__contacts">
+        <p class="foot__h">Контакты</p>
+        <ul>
+          <li><a href="https://t.me/lizakobyasheva" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+        </ul>
+      </div>
+      <div class="foot__col foot__author">
+        <p class="foot__h">Автор</p>
+        <p>Кобяшева Елизавета</p>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <span>Концепция продукта, 2026</span>
+      <button class="foot__reset" type="button" data-reset>Начать путь заново</button>
+      <a href="#top">Наверх</a>
+    </div>
+  </div>
 </footer>
 
+<script src="assets/js/memory.js" defer></script>
 <script src="assets/js/hero.js" defer></script>
 <script src="assets/js/reveal.js" defer></script>
-<script src="assets/js/counter.js" defer></script>
-<script src="assets/js/nav.js" defer></script>
+<script src="assets/js/spy.js" defer></script>
+<script src="assets/js/road.js" defer></script>
 <script src="assets/js/cabinet.js" defer></script>
+<script src="assets/js/nav.js" defer></script>
 </body>
 </html>

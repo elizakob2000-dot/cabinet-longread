@@ -19,7 +19,7 @@
 
   if (reduced || !('IntersectionObserver' in window)) { showLead(); showPoints(); return; }
 
-  var HERO_DONE = 4600; /* мс от загрузки: к этому моменту первый экран готов */
+  var HERO_DONE = 2600; /* мс от загрузки: к этому моменту первый экран готов */
   var leadIO = new IntersectionObserver(function (entries) {
     if (!entries[0].isIntersecting) return;
     leadIO.disconnect();

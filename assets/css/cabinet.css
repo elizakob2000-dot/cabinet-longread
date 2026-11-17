@@ -137,12 +137,12 @@
 .k-go { order: 2; margin-left: auto; min-height: 44px; padding: 0 var(--space-lg); }
 
 .k-after { display: grid; gap: 14px; align-content: center; opacity: 0; pointer-events: none; }
-.k-lh { margin-bottom: 4px; font-size: clamp(24px, 2.4vw, 34px); }
 .k-lst { border-top: 1px solid var(--ink); }
 .k-lst li { border-bottom: 1px solid var(--rule); }
 .k-item {
   display: grid;
   grid-template-columns: 40px 1fr;
+  align-items: center;
   gap: 16px;
   width: 100%;
   padding: 16px 12px;
@@ -167,10 +167,10 @@
   transition: background-color var(--dur-short) var(--ease);
 }
 .k-item.k-act .k-cn { background: var(--lime); color: var(--on-lime); border-color: var(--on-lime); }
-.k-t { display: block; margin-bottom: 6px; font-size: clamp(22px, 2vw, 28px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
+.k-t { display: block; margin-bottom: 0; font-size: clamp(22px, 2vw, 28px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
 .k-p { display: block; font-size: clamp(16px, 1.2vw, 19px); line-height: 1.5; color: var(--muted); }
 .k-lst.k-focus .k-item:not(.k-act) { opacity: 0.5; }
-.k-sh, .k-desc { display: none; }
+.k-sh { display: none; }
 .k-proto { width: 100%; justify-content: space-between; text-align: left; }
 
 /* без прокрутки-закрепления: статичный вариант */
@@ -183,14 +183,12 @@
   .k-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 }
 @media (max-width: 959px) {
-  .k-lh { display: none; }
   .k-lst { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 0; }
   .k-lst li { border: 1px solid var(--rule); border-radius: var(--radius); }
   .k-item { grid-template-columns: 1fr; gap: 6px; padding: 10px 8px; justify-items: start; }
   .k-item .k-lg, .k-item .k-p { display: none; }
   .k-sh { display: inline; }
   .k-t { margin: 0; font-size: clamp(16px, 4.6vw, 20px); }
-  .k-desc { display: block; min-height: 3em; font-size: 16px; line-height: 1.45; }
   .k-after { gap: 10px; }
 }
 @media (max-width: 700px) {
@@ -220,4 +218,19 @@
 }
 @media (max-height: 660px) {
   .k-pinned h2 { display: none; }
+}
+
+/* правая колонка сцены: три названия без заголовка и разделителей, ниже кнопка */
+@media (min-width: 960px) {
+  .k-after { gap: var(--space-lg); }
+  .k-lst { display: grid; gap: 6px; border-top: 0; }
+  .k-lst li { border-bottom: 0; }
+  .k-item { gap: 20px; padding: 14px 18px; border-radius: var(--radius); }
+  .k-cn { width: 44px; height: 44px; font-size: 18px; }
+  .k-t { font-size: clamp(22px, 1.95vw, 28px); }
+}
+@media (min-width: 1200px) {
+  .k-t { white-space: nowrap; }
+}@media (max-width: 959px) {
+  .k-t { font-size: clamp(14px, 3.9vw, 18px); }
 }

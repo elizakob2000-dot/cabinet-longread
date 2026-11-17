@@ -1,39 +1,31 @@
-/* Прозрачная верхняя панель с «пилюлями» и боковой индикатор разделов. */
+/* Верхняя полоса и боковой индикатор разделов с названиями при наведении. */
 
+/* одна сплошная полупрозрачная полоса на всю ширину */
 .site-header {
   position: fixed;
   inset: 0 0 auto;
   z-index: 300;
   height: var(--header-total);
   padding-top: env(safe-area-inset-top, 0px);
-  background: transparent;
-  pointer-events: none;
+  background: color-mix(in srgb, var(--paper) 80%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
 }
 .site-header .container {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   height: var(--header-h);
-}
-
-/* общий вид «пилюль»: полупрозрачная бумага с размытием, читается на любом фоне */
-.brand,
-.nav a {
-  pointer-events: auto;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--paper) 68%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  transition: background-color var(--dur-short) var(--ease), color var(--dur-short) var(--ease), border-color var(--dur-short) var(--ease);
 }
 
 .brand {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   flex: none;
+  margin-left: -10px;
 }
 .brand::before {
   content: "";
@@ -42,13 +34,14 @@
   border-radius: 50%;
   background: var(--lime);
   border: 1px solid var(--on-lime);
+  transition: transform var(--dur-short) var(--ease);
 }
+.brand:hover::before { transform: scale(1.25); }
 
 .nav {
   display: flex;
   gap: var(--space-xs);
-  margin: 0 auto;
-  padding: 2px;
+  margin-left: auto;
   overflow-x: auto;
   scrollbar-width: none;
   white-space: nowrap;
@@ -59,20 +52,25 @@
 .nav a {
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 0 18px;
-  color: var(--ink);
+  min-height: 44px;
+  padding: 0 var(--space-sm);
   text-decoration: none;
 }
-.nav a:hover,
-.nav a.on,
-.brand:hover {
-  background: var(--lime);
-  color: var(--on-lime);
-  border-color: var(--on-lime);
+.nav a span {
+  background: linear-gradient(transparent 62%, transparent 62% 92%, transparent 92%);
+  padding-inline: 0.08em;
+  transition: background-color var(--dur-short) var(--ease);
+}
+.nav a:hover span { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+.nav a.on span {
+  background: linear-gradient(transparent 62%, var(--lime) 62% 92%, transparent 92%);
+  color: var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  .nav a.on span { background: var(--lime); color: var(--on-lime); }
 }
 
-/* боковой индикатор */
+/* боковой индикатор: точки, а при наведении или фокусе раскрываются названия разделов */
 .side-nav {
   position: fixed;
   z-index: 200;
@@ -81,44 +79,79 @@
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   padding: var(--space-xs) var(--space-2xs);
   background: color-mix(in srgb, var(--paper) 88%, transparent);
   border: 1px solid var(--rule);
-  border-radius: 999px;
+  border-radius: 18px;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .side-nav a {
-  display: grid;
-  place-items: center;
-  width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   height: 28px;
   color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sn-label {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  padding-inline: 0 0;
+  transition: max-width var(--dur-long) var(--ease), opacity var(--dur-short) var(--ease), padding var(--dur-long) var(--ease);
+}
+.side-nav:hover .sn-label,
+.side-nav:focus-within .sn-label {
+  max-width: 210px;
+  opacity: 1;
+  padding-inline: var(--space-sm) var(--space-xs);
+}
+.side-nav a.on .sn-label span {
+  background: linear-gradient(transparent 62%, var(--lime) 62% 92%, transparent 92%);
+  color: var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  .side-nav a.on .sn-label span { background: var(--lime); color: var(--on-lime); }
 }
 .side-nav a::after {
   content: "";
+  flex: none;
   width: 8px;
   height: 8px;
+  margin: 0 10px;
   border: 1px solid currentColor;
   opacity: 0.6;
-  transition: width var(--dur-short) var(--ease), height var(--dur-short) var(--ease), opacity var(--dur-short) var(--ease);
+  transition: width var(--dur-short) var(--ease), height var(--dur-short) var(--ease), margin var(--dur-short) var(--ease), opacity var(--dur-short) var(--ease);
 }
 .side-nav a:hover::after,
 .side-nav a:focus-visible::after { opacity: 1; }
 .side-nav a.on::after {
   width: 12px;
   height: 12px;
+  margin: 0 8px;
   opacity: 1;
   background: var(--lime);
   border-color: var(--on-lime);
 }
 
-@media (max-width: 959px) {
-  .nav { margin: 0 0 0 auto; }
-}
 @media (max-width: 700px) {
+  .brand { width: 40px; height: 40px; margin-left: -8px; }
   .nav { font-size: 14px; gap: var(--space-2xs); }
-  .nav a { padding: 0 var(--space-md); }
-  .side-nav { right: 0; padding-inline: 1px; }
-  .side-nav a { width: 22px; height: 24px; }
+  .nav a { padding: 0 var(--space-xs); }
+  .side-nav { right: 0; padding-inline: 0; }
+  .side-nav a::after { margin: 0 7px; }
+  .side-nav a.on::after { margin: 0 5px; }
+}
+/* телефон: меню листается вбок, у правого края лёгкое затухание подсказывает, что там есть ещё */
+@media (max-width: 700px) {
+  .nav {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 28px), transparent);
+    padding-right: 20px;
+  }
 }
